@@ -1,0 +1,40 @@
+version: '3.6'
+
+services:
+
+  mariadb:
+    image: mariadb:10.4.12
+    ports:
+      - "${MARIADB_PORT}:3306"
+    command: --max_allowed_packet=32505856
+    volumes:
+      - ${PWD}/mariadb/data:/var/lib/mysql
+      - ${PWD}/mariadb/init:/docker-entrypoint-initdb.d
+      - web_static:/app/static
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+  web:
+    build: ./app
+    volumes:
+      - ./app/:/app/
+    expose:
+      - ${WEB_PORT}
+    # ports:
+      # - ${WEB_PORT}:8000
+    env_file:
+      - ./.env
+    depends_on:
+      - mariadb
+      
+  nginx:
+    build: ./nginx
+    volumes:
+      - web_static:/app/static
+    ports:
+      - "${NGINX_PORT}:80"
+    depends_on:
+      - web
+
+volumes:
+  web_static:
