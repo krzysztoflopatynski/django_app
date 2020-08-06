@@ -31,6 +31,3 @@ RUN pip install -r requirements.txt
 
 RUN chmod +x entrypoint.sh
 ENTRYPOINT ["/app/entrypoint.sh"]
-
-#CMD  python manage.py migrate && python manage.py collectstatic --no-input && daphne -b 0.0.0.0 -p 8000 django_app.asgi:application
-

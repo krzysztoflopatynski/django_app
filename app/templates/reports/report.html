@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<script type="text/javascript" src="{% static 'js/report.js' %}"></script>
+<script>window.onload = function() {
+    var charts_data = jQuery.parseJSON(`{{ data|safe }}`);
+    if (Array.isArray(charts_data) && charts_data.length > 0) {
+        drawCurveTypes(charts_data);
+    }
+}
+</script>
+
+  <div class="container ">
+      <form action="{% url 'reports:report_view' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+          <div class="form-group">
+              <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Chose file</label>
+              <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref" name="file_selector">
+                  <option selected>Choose...</option>
+                  {% for file in files %}
+                  <option value="{{file.id}}">
+                      "{{file.file_name|capfirst}}" imported at {{file.timestamp}}
+                  </option>
+                  {% endfor %}
+              </select>
+              <button type="submit" class="btn btn-primary my-1">Submit</button>
+          </div>
+      </form>
+
+    <div style="padding-top: 20px">
+        {% if message %}
+          <div class="alert alert-danger" role="alert">{{ message }}</div>
+        {% endif %}
+    </div>
+
+      <div id="chart_div"></div>
+  </div>
+
+{% endblock %}

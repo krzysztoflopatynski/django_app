@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="container">
+    <form action="{% url 'importers:upload' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+      <div class="form-group">
+          <label for="file_id">Upload file</label>
+          <input id="file_id" class="form-control" type="file" name="file">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    {% if file_url %}
+      <p>File uploaded at: <a href="{{ file_url }}">{{ file_url }}</a></p>
+    {% endif %}
+
+
+
+    <div style="padding-top: 20px">
+     {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+    </div>
+
+
+
+
+  </div>
+
+{% endblock %}
