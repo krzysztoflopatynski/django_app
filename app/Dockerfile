@@ -10,8 +10,8 @@ WORKDIR /app
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-ENV HTTP_PROXY http://defra1c-proxy.emea.nsn-net.net:8080
-ENV HTTPS_PROXY http://defra1c-proxy.emea.nsn-net.net:8080
+# ENV HTTP_PROXY http://address:port
+# ENV HTTPS_PROXY http://address:port
 
 ################## BEGIN INSTALLATION ######################
 # Add system packages
